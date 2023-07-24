@@ -1,39 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct LinkedList
-{
-    int value;
-    struct LinkedList *next;
-    int length;
-} list_t;
-size_t print_list(const list_t *h);
-list_t *append(list_t **head, int value);
-list_t *insert_at_head(list_t **head, list_t *node_to_insert);
-list_t *create_new_node(int value);
-list_t *find_node(list_t *head, int value);
-int main(void)
-{
-    list_t *head = NULL;
-    list_t *tmp;
-    tmp = create_new_node(10);
-    insert_at_head(&head, tmp);
-   
-    tmp = create_new_node(20);
-    insert_at_head(&head, tmp);
-    tmp = append(&head, 30);
-    tmp = append(&head, 40);
-    tmp = append(&head, 50);
-    tmp = append(&head, 60);
-    tmp = append(&head, 70);
-    list_t *what = find_node(head, 30);
-    size_t count = print_list(head);
-}
-
-
-
-
-
+#include "list.h"
+/**
+ * create_new_node - create a new node with value = value
+ * @value: value to add
+ * Return: a pointer to the new node
+ */
 list_t *create_new_node(int value)
 {
     list_t *new_node = malloc(sizeof(list_t));
@@ -47,6 +17,12 @@ list_t *create_new_node(int value)
     return (new_node);
 }
 
+/**
+ * append - append a new node at the end of the list
+ * @head: head of the list
+ * @value: value to put in the now
+ * Return: a pointer to the new node
+ */
 list_t *append(list_t **head, int value)
 {
     list_t *ptr = *head;
@@ -73,12 +49,25 @@ list_t *append(list_t **head, int value)
     return (newnode);
 }
 
+/**
+ * insert_at_head - insert a node at the head of the list
+ * @head: head of the list
+ * @node_to_insert: the node to insert at the beginning
+ * Return: a pointer to the inserted node
+ */
 list_t *insert_at_head(list_t **head, list_t *node_to_insert)
 {
     node_to_insert->next = *head;
     *head = node_to_insert;
     return (node_to_insert);
 }
+
+/**
+ * find_node - find the node with the passed value
+ * @head: head of the list
+ * @value: the value to search for
+ * Return: the found node
+ */
 list_t *find_node(list_t *head, int value)
 {
     list_t *ptr = head;
@@ -96,6 +85,11 @@ list_t *find_node(list_t *head, int value)
     return (NULL);
 }
 
+/**
+ * print_list - print the given list
+ * @head: head of the list
+ * Return: the number of the members
+ */
 size_t print_list(const list_t *h)
 {
 	const list_t *node = h;
