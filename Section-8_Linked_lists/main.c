@@ -13,6 +13,7 @@ int main(void)
     tmp = append(&head, 50);
     tmp = append(&head, 60);
     tmp = append(&head, 70);
+    tmp = insert(&head, 2, 35); 
     list_t *what = find_node(head, 30);
     size_t count = print_list(head);
 }

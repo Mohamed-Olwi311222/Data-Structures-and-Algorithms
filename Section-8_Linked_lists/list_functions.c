@@ -19,24 +19,24 @@ list_t *create_new_node(int value)
 
 /**
  * append - append a new node at the end of the list
- * @head: head of the list
+ * @h: head of the list
  * @value: value to put in the now
  * Return: a pointer to the new node
  */
-list_t *append(list_t **head, int value)
+list_t *append(list_t **h, int value)
 {
-    list_t *ptr = *head;
+    list_t *ptr = *h;
     list_t *newnode = malloc(sizeof(list_t));
 
-    if (!head || !newnode)
+    if (!h || !newnode)
     {
         exit(1);
     }
 
     newnode->value = value;
-    if (*head == NULL)
+    if (*h == NULL)
     {
-        *head = newnode;
+        *h = newnode;
     }
     else
     {
@@ -51,27 +51,27 @@ list_t *append(list_t **head, int value)
 
 /**
  * insert_at_head - insert a node at the head of the list
- * @head: head of the list
+ * @h: head of the list
  * @node_to_insert: the node to insert at the beginning
  * Return: a pointer to the inserted node
  */
-list_t *insert_at_head(list_t **head, list_t *node_to_insert)
+list_t *insert_at_head(list_t **h, list_t *node_to_insert)
 {
-    node_to_insert->next = *head;
-    *head = node_to_insert;
+    node_to_insert->next = *h;
+    *h = node_to_insert;
     return (node_to_insert);
 }
 
 /**
  * find_node - find the node with the passed value
- * @head: head of the list
+ * @h: head of the list
  * @value: the value to search for
  * Return: the found node
  */
-list_t *find_node(list_t *head, int value)
+list_t *find_node(list_t *h, int value)
 {
-    list_t *ptr = head;
-    if (!head)
+    list_t *ptr = h;
+    if (!h)
     {
         return (NULL);
     }
@@ -87,7 +87,7 @@ list_t *find_node(list_t *head, int value)
 
 /**
  * print_list - print the given list
- * @head: head of the list
+ * @h: head of the list
  * Return: the number of the members
  */
 size_t print_list(const list_t *h)
@@ -105,4 +105,40 @@ size_t print_list(const list_t *h)
 	}
     printf("\n");
 	return (count);
+}
+/**
+ * insert - insert at given index
+ * @head: head of the list
+ * @index: index to insert the new node
+ * @value: value to put
+ * Return: a pointer to the newnode
+ */
+list_t *insert(list_t **h, size_t index, int value)
+{
+	list_t *newnode = create_new_node(value), *ptr = *h;
+	int i = 0;
+
+	if (!h)
+		return (NULL);
+	if (index == 0)
+	{
+		newnode->next = *h;
+		*h = newnode;
+	}
+	else
+	{
+		while (ptr != NULL && i < index - 1)
+		{
+			ptr = ptr->next;
+			i++;
+		}
+		if (ptr == NULL)
+		{
+			free(newnode);
+			return (NULL);
+		}
+		newnode->next = ptr->next;
+		ptr->next = newnode;
+	}
+	return (newnode);
 }
