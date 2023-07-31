@@ -142,3 +142,61 @@ list_t *insert(list_t **h, size_t index, int value)
 	}
 	return (newnode);
 }
+/**
+ * freeHead - free the head of the list
+ * @h: head of the list
+ */
+void freeHead(list_t **h)
+{
+	list_t *ptr = *h;
+
+	if (!h)
+		return;
+	*h = (*h)->next;
+	free(ptr);
+}
+/**
+ * freeNode - remove a node from list
+ * @h: head of the list
+ * @index: index of the node to remove
+ */
+void freeNode(list_t **h, size_t index)
+{
+	list_t *curr = *h, *next = NULL;
+	size_t i = 0;
+
+	if (!h)
+		return;
+	if (index == 0)
+	{
+	freeHead(h);
+	return;
+	}
+	next = curr->next;
+	while (i < index - 1 && next != NULL)
+	{
+		next = next->next;
+		curr = curr->next;
+		i++;
+	}
+	curr->next = next->next;
+	free(next);
+}
+/**
+ * freeList - free the whole list
+ * @h: head of the list
+ */
+void freeList_t(list_t **h)
+{
+	list_t *node = *h;
+
+	if (!h)
+		return;
+	while (*h != NULL)
+	{
+		*h = (*h)->next;
+		free(node);
+		node = *h;
+	}
+}
+
