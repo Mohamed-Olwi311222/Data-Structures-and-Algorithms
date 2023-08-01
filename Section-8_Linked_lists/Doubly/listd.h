@@ -11,6 +11,8 @@ typedef struct LinkedList
     struct LinkedList *next;
     struct LinkedList *prev;
 } list_d;
+/*-----------------Global variables--------------------------------------------*/
+extern size_t length;
 /*-----------------Function prototypes-----------------------------------------*/
 size_t print_list(const list_d *h);
 list_d *append(list_d **tail, int value);

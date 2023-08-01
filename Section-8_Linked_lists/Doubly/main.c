@@ -3,7 +3,7 @@ int main(void)
 {
     list_d *head = NULL, *tail = NULL;
     list_d *tmp;
-    size_t count0 = print_list(head);     
+    size_t count;     
     tmp = create_new_node(10);
     insert_at_head(&head, tmp);
     tmp = create_new_node(20);
@@ -15,31 +15,32 @@ int main(void)
     tmp = append(&tail, 60);
     tmp = append(&tail, 70);
     tmp = insert(&head, &tail,21111, 80);
+    printf("length: %lu\n", length);
     /*----------------------------------------------------------------------------------------*/
-    printf("test for freeHead ,append, insert, insert_at_head and find node\n");
-    printf("Count0: %ld\n", count0);
-    size_t count1 = print_list(head);
+    printf("test for freeHead ,append, insert, insert_at_head and find node\n\n\n");
+    count = print_list(head);
     list_d *what = find_node(head, 30);
     printf("what->value: %d\n", what->value);
     freeHead(&head);
-    size_t count2 = print_list(head);
-    printf("count1: %ld\n", count1);
-    printf("count2: %ld\n", count2);
+    count = print_list(head);
+    printf("length: %ld\n", length);
     /*----------------------------------------------------------------------------------------*/
-    printf("test for freeNode\n");
-    size_t count3 = print_list(head);
+    printf("\n\n\ntest for freeNode\n\n\n");
+    count = print_list(head);
     freeNode(&head, &tail, 999);
-    size_t count4 = print_list(head);
-    printf("count3: %ld\n", count3);
-    printf("count4: %ld\n", count4);
+    count = print_list(head);
+    printf("length: %lu\n", length);
     /*----------------------------------------------------------------------------------------*/
-    //printf("test for freeList_t\n");
+    //printf("\n\n\ntest for freeList_t\n\n\n");
     //freeList_d(&head);
-    printf("test for reverseList\n");
-    size_t count5 = print_list(head);
-    printf("count5: %ld\n", count5);
+    //count = print_list(head);
+    //printf("length: %lu", length);
+    /*----------------------------------------------------------------------------------------*/
+    printf("\n\n\ntest for reverseList\n\n\n");
+    count = print_list(head);
+    printf("length: %lu\n", length);
     reverseList(&head, &tail);
-    size_t count6 = print_list(head);
-   // printf("count6: %ld\n", count6);
+    count = print_list(head);
+    printf("%lu\n", length);
     return (0);
 }
