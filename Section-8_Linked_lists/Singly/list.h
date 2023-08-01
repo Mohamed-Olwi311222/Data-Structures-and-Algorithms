@@ -10,9 +10,10 @@ typedef struct LinkedList
     int value;
     struct LinkedList *next;
 } list_t;
+/*-----------------Global Variables--------------------------------------------*/
+extern size_t length;
 /*-----------------Function prototypes-----------------------------------------*/
 size_t print_list(const list_t *h);
-size_t listLength(list_t *h);
 list_t *traverseList(list_t *h);
 list_t *append(list_t **tail, int value);
 list_t *insert_at_head(list_t **head, list_t *node_to_insert);

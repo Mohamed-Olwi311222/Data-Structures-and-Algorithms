@@ -1,4 +1,7 @@
 #include "list.h"
+
+size_t length = 0;
+
 /**
  * create_new_node - create a new node with value = value
  * @value: value to add
@@ -11,7 +14,7 @@ list_t *create_new_node(int value)
     {
         return (NULL);
     }
-
+    length++;
     new_node->value = value;
     new_node->next = NULL;
     return (new_node);
@@ -95,26 +98,6 @@ size_t print_list(const list_t *h)
 }
 
 /**
- * listLength - get the list length
- * @h: head of the list
- * Return: the length of the list
- */
-size_t listLength(list_t *h)
-{
-  list_t *ptr = h;
-  size_t length = 1;
-
-  if (!h)
-    return (0);
-
-  while (ptr != NULL)
-  {
-    ptr = ptr->next;
-    length++;
-  }
-  return (length);
-}
-/**
  * traverseList - traverse the list to the end
  * @h: head of the list
  * Return: the tail of the list
@@ -143,8 +126,7 @@ list_t *traverseList(list_t *h)
  */
 list_t *insert(list_t **h, list_t **tail,size_t index, int value)
 {
-	list_t *newnode = create_new_node(value), *ptr = *h;
-  size_t length = listLength(*h);
+	list_t *newnode, *ptr = *h;
 	int i = 0;
 
 	if (!h)
@@ -153,7 +135,7 @@ list_t *insert(list_t **h, list_t **tail,size_t index, int value)
   {
     return (append(tail, value));
   }
-    
+  newnode = create_new_node(value);
 	if (index == 0)
 	{
 		newnode->next = *h;
@@ -187,6 +169,7 @@ void freeHead(list_t **h)
 	if (!h)
 		return;
 	*h = (*h)->next;
+  length--;
 	free(ptr);
 }
 /**
@@ -197,7 +180,7 @@ void freeHead(list_t **h)
 void freeNode(list_t **h, size_t index)
 {
 	list_t *curr = *h, *next = NULL;
-	size_t i = 0, length = listLength(*h);
+	size_t i = 0;
 
 	if (!h)
 		return;
@@ -220,6 +203,7 @@ void freeNode(list_t **h, size_t index)
 	}
 	curr->next = next->next;
 	free(next);
+  length--;
 }
 /**
  * freeList - free the whole list
@@ -236,6 +220,7 @@ void freeList_t(list_t **h)
 		*h = (*h)->next;
 		free(node);
 		node = *h;
+    length--;
 	}
 }
 /**
