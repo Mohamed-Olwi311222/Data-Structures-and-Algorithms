@@ -19,33 +19,20 @@ list_t *create_new_node(int value)
 
 /**
  * append - append a new node at the end of the list
- * @h: head of the list
+ * @tail: tail of the list
  * @value: value to put in the now
  * Return: a pointer to the new node
  */
-list_t *append(list_t **h, int value)
+list_t *append(list_t **tail, int value)
 {
-    list_t *ptr = *h;
-    list_t *newnode = malloc(sizeof(list_t));
+    list_t *newnode = create_new_node(value), *ptr = *tail;
 
-    if (!h || !newnode)
+    if (!tail || !newnode)
     {
         exit(1);
     }
-
-    newnode->value = value;
-    if (*h == NULL)
-    {
-        *h = newnode;
-    }
-    else
-    {
-        while (ptr->next != NULL)
-        {
-            ptr = ptr->next;
-        }
-        ptr->next = newnode;
-    }
+    ptr->next = newnode;
+    *tail = newnode;
     return (newnode);
 }
 
@@ -106,20 +93,67 @@ size_t print_list(const list_t *h)
     printf("\n");
 	return (count);
 }
+
+/**
+ * listLength - get the list length
+ * @h: head of the list
+ * Return: the length of the list
+ */
+size_t listLength(list_t *h)
+{
+  list_t *ptr = h;
+  size_t length = 1;
+
+  if (!h)
+    return (0);
+
+  while (ptr != NULL)
+  {
+    ptr = ptr->next;
+    length++;
+  }
+  return (length);
+}
+/**
+ * traverseList - traverse the list to the end
+ * @h: head of the list
+ * Return: the tail of the list
+ */
+list_t *traverseList(list_t *h)
+{
+  list_t *ptr = h;
+
+  if (!h)
+    return (NULL);
+
+  while (ptr->next != NULL)
+  {
+    ptr = ptr->next;
+  }
+
+  return (ptr);
+}
 /**
  * insert - insert at given index
  * @head: head of the list
+ * @tail: tail of the list
  * @index: index to insert the new node
  * @value: value to put
  * Return: a pointer to the newnode
  */
-list_t *insert(list_t **h, size_t index, int value)
+list_t *insert(list_t **h, list_t **tail,size_t index, int value)
 {
 	list_t *newnode = create_new_node(value), *ptr = *h;
+  size_t length = listLength(*h);
 	int i = 0;
 
 	if (!h)
 		return (NULL);
+  if (index >= length)
+  {
+    return (append(tail, value));
+  }
+    
 	if (index == 0)
 	{
 		newnode->next = *h;
@@ -163,17 +197,22 @@ void freeHead(list_t **h)
 void freeNode(list_t **h, size_t index)
 {
 	list_t *curr = *h, *next = NULL;
-	size_t i = 0;
+	size_t i = 0, length = listLength(*h);
 
 	if (!h)
 		return;
 	if (index == 0)
 	{
-	freeHead(h);
-	return;
+	  freeHead(h);
+	  return;
 	}
+  else if (index >= length)
+  {
+    index = length - 1;
+  }
+
 	next = curr->next;
-	while (i < index - 1 && next != NULL)
+	while (i < index - 1 && next->next != NULL)
 	{
 		next = next->next;
 		curr = curr->next;
@@ -199,4 +238,25 @@ void freeList_t(list_t **h)
 		node = *h;
 	}
 }
-
+/**
+* reverseList - reverse singly linked list
+* @h: head of the list
+* @tail: tail of the list
+*/
+void reverseList(list_t **h, list_t **tail)
+{
+  list_t *prev = *h, *curr = (*h)->next;
+  list_t *next = curr->next;
+  if (!h || !curr)
+    return;
+  *tail = *h;
+  prev->next = NULL;
+  while (curr != NULL)
+  {
+    next = curr->next;
+    curr->next = prev;
+    prev = curr;
+    curr = next;
+  }
+  *h = prev;
+}

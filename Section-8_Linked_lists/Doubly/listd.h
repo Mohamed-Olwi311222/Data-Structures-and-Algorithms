@@ -22,5 +22,5 @@ void freeHead(list_d **h);
 void freeNode(list_d **h, list_d **tail,size_t index);
 void freeList_d(list_d **h);
 list_d *traverseList_d(list_d *h);
-void reverseList(list_d **h);
+void reverseList(list_d **h, list_d **tail);
 #endif

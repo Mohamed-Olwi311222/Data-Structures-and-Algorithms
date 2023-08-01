@@ -38,8 +38,8 @@ int main(void)
     printf("test for reverseList\n");
     size_t count5 = print_list(head);
     printf("count5: %ld\n", count5);
-    //reverseList(&head);
-    //size_t count6 = print_list(head);
+    reverseList(&head, &tail);
+    size_t count6 = print_list(head);
    // printf("count6: %ld\n", count6);
     return (0);
 }

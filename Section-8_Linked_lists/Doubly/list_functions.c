@@ -250,20 +250,22 @@ void freeList_d(list_d **h)
 /**
 * reverseList - revere a doubly linked list
 * @h: head of the list
+* @tail: tail of the list
 */
-void reverseList(list_d **h)
+void reverseList(list_d **h, list_d **tail)
 {
-  list_d *ptr = (*h)->next;
+  list_d *curr = *h, *next = NULL, *tmp;
 
   if(!h)
     return;
-  while (ptr != NULL)
+  while (curr != NULL)
   {
-    ptr->prev = NULL;
-    (*h)->next = NULL;
-    (*h)->prev = ptr;
-    ptr->next = *h;
-    ptr = ptr->next;
-    *h = (*h)->next;
+	next = curr->next;
+	curr->next = curr->prev;
+	curr->prev = next;
+	curr = next;
   }
+	tmp = *h;
+	*h = *tail;
+	*tail = tmp;
 }
