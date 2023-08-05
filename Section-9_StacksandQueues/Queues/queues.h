@@ -5,21 +5,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 /*-------------------------------------Structs-------------------------------------------------------*/
 typedef struct list
 {
   char *data;
   struct list *next;
-  struct list *prev;
-} list_d;
-typdef struct queue
+} list_t;
+typedef struct queue
 {
-  list_d *first;
-  list_d *last;
+  list_t *first;
+  list_t *last;
 } queue;
 /*-------------------------------------Global varaible-----------------------------------------------*/
 extern size_t length;
 /*-------------------------------------functions prototypes------------------------------------------*/
-
+list_t *create_new_node(char *data);
+void init_queue(queue *queue);
+bool enqueue(queue *q, char *data);
+char *dequeue(queue *q);
+char *peek(queue *q);
 /*-------------------------------------End-----------------------------------------------------------*/
 #endif /*QUEUES_H*/
