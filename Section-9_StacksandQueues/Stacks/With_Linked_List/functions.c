@@ -75,7 +75,6 @@ char *peek(stack *stack)
   {
     return (NULL);
   }
-  data = stack->top->data;
   return (data);
 }
 /**

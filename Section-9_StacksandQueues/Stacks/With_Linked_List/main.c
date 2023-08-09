@@ -24,9 +24,11 @@ int main(void)
   printf("%s ", peek(&stack));
 
   printf("\n\n\nFor loop to test pop: \n");
-  while (length != 0)
+  char *data = pop(&stack);
+  while (data != NULL)
   {
-    printf("%s ", pop(&stack));
+    printf("%s ", data);
+    data = pop(&stack);
   }
 
   printf("\n\n\nprintStack after popping\n");
