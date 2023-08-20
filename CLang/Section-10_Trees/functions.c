@@ -109,11 +109,14 @@ bool remove_node(node **root, int value)
 	bool only_one_child = false;
 	bool two_childrens = false;
 
-	 if (!root)
+	/*Check if the root doesnt exist*/
+	 if (!root || !(*(root)))
 	 	return (false);
+	/*start with the root of the tree*/
 	current_node = *root;
 	while (current_node)
 	{
+		/*Check the value and traverse accordingly*/
 		if (value > current_node->val)
 		{
 			parent_node = current_node;
@@ -147,34 +150,55 @@ bool remove_node(node **root, int value)
 			else if (only_one_child)
 			{
 				/*Right node of the parent*/
-				if (parent_node->right->val == current_node->val )
+				if (parent_node && parent_node->right == current_node )
 				{
 					/*Right node of the current_node*/
 					if (current_node->right != NULL)
 					{
 						parent_node->right = current_node->right;
+						current_node->right = NULL;
 					}
 					/*Left node of the current node*/
 					else
 					{
 						parent_node->right = current_node->left;
+						current_node->left = NULL;
 					}
 						free(current_node);
 				}
 				/*Left node of the parent*/
-				else
+				else if (parent_node && parent_node->left == current_node)
 				{
 					/*Right node of the current*/
 					if (current_node->right != NULL)
 					{
 						parent_node->left = current_node->right;
+						current_node->right = NULL;
 					}
 					/*Left node of the current*/
 					else
 					{
 						parent_node->left = current_node->left;
+						current_node->left = NULL;
 					}
 					free(current_node);
+				}
+				/*The root only has one child*/
+				else
+				{
+					/*Right node of the current_node*/
+					if (current_node->right != NULL)
+					{
+						*root = current_node->right;
+						current_node->right = NULL;
+					}
+					/*Left node of the current node*/
+					else if (current_node->left != NULL)
+					{
+						*root = current_node->left;
+						current_node->left = NULL;
+					}
+						free(current_node);
 				}
 			}
 			else if (two_childrens)
@@ -186,12 +210,8 @@ bool remove_node(node **root, int value)
 						parent_node = tmp;
 						tmp = tmp->left;
 				}
-				current_node->val = parent_node->val;
-				if (parent_node->left == tmp)
-				{
-					parent_node->left = NULL;
-				}
-				else
+				current_node->val = tmp->val;
+				if (parent_node->right == tmp)
 				{
 					parent_node->right = NULL;
 				}
