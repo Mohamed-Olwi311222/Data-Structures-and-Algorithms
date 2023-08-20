@@ -3,7 +3,13 @@
 /*--------------------------------------------Include Section----------------*/
 #include <stdio.h>
 #include <stdlib.h>
+
+#ifdef __UNIX__ 
 #include <unistd.h>
+#elif defined(_WIN32) || defined(_WIN64)
+#include <Windows.h>
+#endif
+
 #include <limits.h>
 #include <stdbool.h>
 /*--------------------------------------------Struct Section-----------------*/
@@ -21,8 +27,9 @@ typedef struct node
 } node;
 /*--------------------------------------------Function prototypes Section----*/
 node *create_new_node(const int value);
-void insert_tree(node **root, int value);
-void print_tree(const node *root);
+bool insert_tree(node **root, int value);
+bool print_tree(const node *root);
 bool look_up_tree(node *root, int value);
+bool remove_node(node **root, int value);
 /*--------------------------------------------End Section--------------------*/
 #endif

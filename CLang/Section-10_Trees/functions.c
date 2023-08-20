@@ -2,61 +2,62 @@
 /**
  * create_new_node - create a new node
  * @value: value to store inside the node
- * Return: the address of the new node
+ * Return: the address of the new node or NULL if failed
  */
 node *create_new_node(const int value)
 {
-	node *newnode = malloc(sizeof(node));
+	node *new_node = malloc(sizeof(node));
 
-	if (newnode == NULL)
+	if (new_node == NULL)
 		return (NULL);
-	newnode->right = NULL;
-	newnode->left = NULL;
-	newnode->val = value;
+	new_node->right = NULL;
+	new_node->left = NULL;
+	new_node->val = value;
 
-	return (newnode);
+	return (new_node);
 }
 /**
  * insert_tree - insert in tree
  * @root: tree root
  * @value: value to store in the tree
  */
-void insert_tree(node **root, int value)
+bool insert_tree(node **root, int value)
 {
-	node *newnode = create_new_node(value);
-	node *currentnode;
+	node *new_node = create_new_node(value);
+	node *current_node;
 
-	if (!root || !newnode)
-		return;
+	if (!root || !new_node)
+		return (false);
 	if (!(*root))
 	{
-		*root = newnode;
-		return;
+		*root = new_node;
+		return (true);
 	}
-	currentnode = *root;
+	current_node = *root;
 	while (1)
 	{
-		if (newnode->val >= currentnode->val)
+		if (new_node->val >= current_node->val)
 		{
 			/*Right Side*/
-			if (currentnode->right == NULL)
+			if (current_node->right == NULL)
 			{
-				currentnode->right = newnode;
+				current_node->right = new_node;
 				break;
 			}
-			currentnode = currentnode->right;
+			current_node = current_node->right;
 		}
 		else
 		{
 			/*Left Side*/
-			if (currentnode->left == NULL)
+			if (current_node->left == NULL)
 			{
-				currentnode->left = newnode;
+				current_node->left = new_node;
 				break;
 			}
-			currentnode = currentnode->left;
+			current_node = current_node->left;
 		}
 	}
+	return (true);
 	}
 /**
  * look_up_tree - look for a specific value
@@ -92,4 +93,120 @@ bool look_up_tree(node *root, int value)
 		}
 	}
 	return (found);
+}
+/**
+ * remove_node
+ * @root: tree's root
+ * @value: value to remove from tree
+ * Return: true if success otherwise false
+*/
+bool remove_node(node **root, int value)
+{
+	node *current_node = NULL;
+	node *parent_node = NULL;
+	node *tmp = NULL;
+	bool leaf = false;
+	bool only_one_child = false;
+	bool two_childrens = false;
+
+	 if (!root)
+	 	return (false);
+	current_node = *root;
+	while (current_node)
+	{
+		if (value > current_node->val)
+		{
+			parent_node = current_node;
+			current_node = current_node->right;
+			continue;
+		}
+		else if (value < current_node->val)
+		{
+			parent_node = current_node;
+			current_node = current_node->left;
+			continue;
+		}
+		else if (value == current_node->val)
+		{
+			/*All possiblities*/
+			leaf = current_node->right == NULL && current_node->left == NULL;
+			only_one_child = current_node->right != NULL && current_node->left == NULL || current_node->right == NULL && current_node->left != NULL;
+			two_childrens = current_node->right != NULL && current_node->left != NULL;
+			if (leaf)
+			{
+				if(parent_node->left->val == value)
+				{
+					parent_node->left = NULL;
+				}
+				else
+				{
+					parent_node->right = NULL;
+				}
+				free(current_node);
+			}
+			else if (only_one_child)
+			{
+				/*Right node of the parent*/
+				if (parent_node->right->val == current_node->val )
+				{
+					/*Right node of the current_node*/
+					if (current_node->right != NULL)
+					{
+						parent_node->right = current_node->right;
+					}
+					/*Left node of the current node*/
+					else
+					{
+						parent_node->right = current_node->left;
+					}
+						free(current_node);
+				}
+				/*Left node of the parent*/
+				else
+				{
+					/*Right node of the current*/
+					if (current_node->right != NULL)
+					{
+						parent_node->left = current_node->right;
+					}
+					/*Left node of the current*/
+					else
+					{
+						parent_node->left = current_node->left;
+					}
+					free(current_node);
+				}
+			}
+			else if (two_childrens)
+			{
+				tmp = current_node->right;
+				parent_node = current_node;
+				while (tmp->left != NULL)
+				{
+						parent_node = tmp;
+						tmp = tmp->left;
+				}
+				current_node->val = parent_node->val;
+				if (parent_node->left == tmp)
+				{
+					parent_node->left = NULL;
+				}
+				else
+				{
+					parent_node->right = NULL;
+				}
+				free(tmp);
+			}
+			break;
+		}
+		else
+		{
+			return (false);
+		}
+	}
+	if (!current_node)
+	{
+		return (false);
+	}
+	return (true);
 }
