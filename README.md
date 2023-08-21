@@ -1,2 +1,1 @@
-# Data-Structures-and-Algorithms
-ZTM Academy course on udemy 
+My implementation of some data structures and algorithms using Clang and cpp soon :)
