@@ -1,17 +1,36 @@
 #include "merge.h"
 /**
- * merge_sort - sort the array using merge sort
+ * merge_sort - merge sort the unsorted array
+ * @arr: array to sort
+ * @size: size of the array to sort
+ * Return: 1 if success otherwise exit the program
+*/
+int merge_sort(int *arr, int size)
+{
+    if (size < 0 || arr == NULL)
+    {
+        perror("Invalid Arguments");
+        exit(1);
+    }
+    msort(arr, size);
+    return (1);
+}
+
+
+
+/**
+ * msort - sort the array using merge sort
  * @arr: array to sort
  * @size: size of the array
  * Return: true if success otherwise false
 */
-bool merge_sort(int *arr, int size)
+void msort(int *arr, int size)
 {
     int middle, i, j;
 
     if (size == 1)
     {
-        return (true);
+        return;
     }
     middle = size / 2;
     int left_arr[middle];
