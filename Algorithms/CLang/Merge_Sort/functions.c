@@ -3,7 +3,7 @@
  * merge_sort - merge sort the unsorted array
  * @arr: array to sort
  * @size: size of the array to sort
- * Return: 1 if success otherwise exit the program
+ * Return: 0 if success otherwise exit the program
 */
 int merge_sort(int *arr, int size)
 {
@@ -13,7 +13,7 @@ int merge_sort(int *arr, int size)
         exit(1);
     }
     msort(arr, size);
-    return (1);
+    return (0);
 }
 
 
