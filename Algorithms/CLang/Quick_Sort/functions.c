@@ -1,4 +1,8 @@
 #include "quick.h"
+
+void q_sort(int *arr, int low, int high);
+void swap(int *num1, int *num2);
+int partition(int *arr, int low, int high);
 /**
  * quick_sort - quick sort the unsorted array
  * @arr: array to sort

@@ -1,4 +1,7 @@
 #include "merge.h"
+void msort(int *arr, int size);
+void merge(int *left_arr, int left_l, int *right_arr, int right_l, int *arr, int size);
+
 /**
  * merge_sort - merge sort the unsorted array
  * @arr: array to sort
@@ -15,8 +18,6 @@ int merge_sort(int *arr, int size)
     msort(arr, size);
     return (0);
 }
-
-
 
 /**
  * msort - sort the array using merge sort
