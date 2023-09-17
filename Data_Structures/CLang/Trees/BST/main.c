@@ -24,6 +24,6 @@ int main(void)
     for (int i = 0; i < 9; i++)
     {
         found = remove_node(&root, value2[i]);
-        printf("%d is deleted: %s\n", value2[i], found ? "true" : "false");
+        printf("%d is deleted: %s\n", value2[i], !(found) ? "true" : "false");
     } 
 }
