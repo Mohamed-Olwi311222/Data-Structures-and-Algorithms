@@ -1,5 +1,4 @@
-#include "tree.h"
-#include "queues.h"
+#include "functions.h"
 /**
  * create_new_node - create a new node
  * @value: value to store inside the node
@@ -99,143 +98,124 @@ bool look_up_tree(node *root, int value)
  * remove_node
  * @root: tree's root
  * @value: value to remove from tree
- * Return: true if success otherwise false
+ * Return: 0 if success otherwise negative value
 */
-bool remove_node(node **root, int value)
+int remove_node(node **root, int value)
 {
-	node *current_node = NULL;
-	node *parent_node = NULL;
-	node *tmp = NULL;
-	bool leaf = false;
-	bool only_one_child = false;
-	bool two_childrens = false;
+	node *parent = NULL, *child = NULL, *temp = NULL, *temp_parent = NULL;
 
-	/*Check if the root doesnt exist*/
-	 if (!root || !(*(root)))
-	 	return (false);
-	/*start with the root of the tree*/
-	current_node = *root;
-	while (current_node)
+	if (!root || !(*root))
+		return (-1);
+	child = *root;
+	/*Root*/
+	if (child->val == value)
 	{
-		/*Check the value and traverse accordingly*/
-		if (value > current_node->val)
+		/*The node has no children*/
+		if (child->left == NULL && child->right == NULL)
 		{
-			parent_node = current_node;
-			current_node = current_node->right;
-			continue;
+			free(child);
+			*root = NULL;
 		}
-		else if (value < current_node->val)
+		/*The node or root has one child */
+		else if ((child->left && !child->right) || (child->right && !child->left))
 		{
-			parent_node = current_node;
-			current_node = current_node->left;
-			continue;
+			if (child->left)
+				*root = child->left;
+			else
+				*root = child->right;
+			free(child);
 		}
-		else if (value == current_node->val)
-		{
-			/*All possiblities*/
-			leaf = current_node->right == NULL && current_node->left == NULL;
-			only_one_child = current_node->right != NULL && current_node->left == NULL || current_node->right == NULL && current_node->left != NULL;
-			two_childrens = current_node->right != NULL && current_node->left != NULL;
-			if (leaf)
-			{
-				if(parent_node->left->val == value)
-				{
-					parent_node->left = NULL;
-				}
-				else
-				{
-					parent_node->right = NULL;
-				}
-				free(current_node);
-			}
-			else if (only_one_child)
-			{
-				/*Right node of the parent*/
-				if (parent_node && parent_node->right == current_node )
-				{
-					/*Right node of the current_node*/
-					if (current_node->right != NULL)
-					{
-						parent_node->right = current_node->right;
-						current_node->right = NULL;
-					}
-					/*Left node of the current node*/
-					else
-					{
-						parent_node->right = current_node->left;
-						current_node->left = NULL;
-					}
-						free(current_node);
-				}
-				/*Left node of the parent*/
-				else if (parent_node && parent_node->left == current_node)
-				{
-					/*Right node of the current*/
-					if (current_node->right != NULL)
-					{
-						parent_node->left = current_node->right;
-						current_node->right = NULL;
-					}
-					/*Left node of the current*/
-					else
-					{
-						parent_node->left = current_node->left;
-						current_node->left = NULL;
-					}
-					free(current_node);
-				}
-				/*The root only has one child*/
-				else
-				{
-					/*Right node of the current_node*/
-					if (current_node->right != NULL)
-					{
-						*root = current_node->right;
-						current_node->right = NULL;
-					}
-					/*Left node of the current node*/
-					else if (current_node->left != NULL)
-					{
-						*root = current_node->left;
-						current_node->left = NULL;
-					}
-						free(current_node);
-				}
-			}
-			else if (two_childrens)
-			{
-				tmp = current_node->right;
-				parent_node = current_node;
-				while (tmp->left != NULL)
-				{
-						parent_node = tmp;
-						tmp = tmp->left;
-				}
-				current_node->val = tmp->val;
-				if (parent_node->right == tmp)
-				{
-					parent_node->right = NULL;
-				}
-				free(tmp);
-			}
-			break;
-		}
+		/*The node has two children*/
 		else
 		{
-			return (false);
+			temp = child->right;
+			temp_parent = child;
+			while (temp->left)
+			{
+				temp_parent = temp;
+				temp = temp->left;
+			}
+			child->val = temp->val;
+			if (temp_parent->left == temp)
+				temp_parent->left = NULL;
+			else
+				temp_parent->right = NULL;
+			free(temp);
+		}
+		return (0);
+	}
+	while (child)
+	{
+		/*The target value is on the left (smaller than the parent)*/
+		if (value > child->val)
+		{
+			parent = child;
+			child = parent->right;
+		}
+		/*The target value is on the right (bigger than the parent)*/
+		else if (value < child->val)
+		{
+			parent = child;
+			child = parent->left;
+		}
+		/*value is found*/
+		else
+		{
+			/*The node has no children*/
+			if (child->left == NULL && child->right == NULL)
+			{
+				if (parent->left == child)
+					parent->left = NULL;
+				else
+					parent->right = NULL;
+				free(child);
+			}
+			/*The node or root has one child */
+			else if ((child->left && !child->right) || (child->right && !child->left))
+			{
+				if (parent->left == child)
+				{
+					if (child->left)
+						parent->left = child->left;
+					else
+						parent->left = child->right;
+				}
+				else
+				{
+					if (child->left)
+						parent->right = child->left;
+					else
+						parent->right = child->right;
+				}
+				free(child);
+			}
+			/*The node has two children*/
+			else
+			{
+				temp = child->right;
+				temp_parent = child;
+				while (temp->left)
+				{
+					temp_parent = temp;
+					temp = temp->left;
+				}
+				child->val = temp->val;
+				if (temp_parent->left == temp)
+					temp_parent->left = NULL;
+				else
+					temp_parent->right = NULL;
+				free(temp);
+			}
+			return (0);
 		}
 	}
-	if (!current_node)
-	{
-		return (false);
-	}
-	return (true);
+		return (-1);
 }
 /**
  * BFS - breadth search through a tree
  * @root: root of the tree
  * @target: target value
- * Return: 1 if found otherwise a negative value
+ * Return: 0 if found otherwise -1
 */
 int BFS(node *root, int target)
 {
@@ -250,21 +230,85 @@ int BFS(node *root, int target)
 
 	init_queue(&q);
 	enqueue(&q, curr);
-	while (q.length > 0)
+	while (q.length >= 0)
 	{
 		curr = dequeue(&q);
 		if (curr && curr->val == target)
 		{
-			return (1);
+			free_queue(&q);
+			return (0);
 		}
-		if (curr && curr->right != NULL)
+		if (curr)
 		{
-			enqueue(&q, curr->right);
+			if (curr->left != NULL)
+			{
+				enqueue(&q, curr->left);
+			}
+			if (curr->right != NULL)
+			{
+				enqueue(&q, curr->right);
+			}
 		}
-		if (curr && curr->left != NULL)
+		else
 		{
-			enqueue(&q, curr->left);
+			free_queue(&q);
+			return (-2);
 		}
 	}
+
+	free_queue(&q);
 	return (-2);
+}
+/**
+ * BFS_recursion - BFS through a tree using recursion
+ * @root: root of the tree to search in
+ * @target: target value to search for
+ * Return: 0 if found otherwise -1
+*/
+int BFS_recursion(node *root, int target)
+{
+	queue q;
+	int res = 0;
+
+	if (root == NULL)
+	{
+		return (-1);
+	}
+	init_queue(&q);
+
+	enqueue(&q, root);
+	res = BFSR(root, target, &q);
+
+	free_queue(&q);
+	return (res);
+}
+/**
+ * BFSR - helper functions of BFS_recursion
+ * @root: root of the tree to seach in
+ * @q: queue to use it in BFS
+ * Return: return 0 if found otherwise -1
+*/
+static int BFSR(node *root, int target, queue *q)
+{
+	if (q->length <= 0)
+	{
+		return (-1);
+	}
+	node *curr = dequeue(q);
+	if (curr && curr->val == target)
+	{
+		return (0);
+	}
+	if (curr)
+	{
+		if (curr->left != NULL)
+		{
+			enqueue(q, curr->left);
+		}
+		if (curr->right != NULL)
+		{
+			enqueue(q, curr->right);
+		}
+	}
+	return (BFSR(root, target, q));
 }
