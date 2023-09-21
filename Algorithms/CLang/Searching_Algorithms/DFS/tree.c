@@ -278,6 +278,7 @@ int DFS_preordered(node *root)
 	s = preorder_DFS(root, s);
 	printStack(s);
 	free_stack(s);
+	free(s);
 	return (0);
 }
 /**
@@ -321,6 +322,7 @@ int DFS_postordered(node *root)
 	s = postorder_DFS(root, s);
 	printStack(s);
 	free_stack(s);
+	free(s);
 	return (0);
 }
 /**
