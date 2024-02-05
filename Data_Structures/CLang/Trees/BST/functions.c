@@ -20,20 +20,24 @@ node *create_new_node(const int value)
  * insert_tree - insert in tree
  * @root: tree root
  * @value: value to store in the tree
+ * Return: 0 if sucess otherwise negative val(-1 if root is null)
  */
-bool insert_tree(node **root, int value)
+int insert_tree(node **root, int value)
 {
 	node *new_node = create_new_node(value);
 	node *current_node;
+  int stats = -1;
 
 	if (!root || !new_node)
-		return (false);
+		return (stats);
 	if (!(*root))
 	{
+    stats = 0;
 		*root = new_node;
-		return (true);
+		return (stats);
 	}
 	current_node = *root;
+  stats = -2;
 	while (1)
 	{
 		if (new_node->val >= current_node->val)
@@ -41,6 +45,7 @@ bool insert_tree(node **root, int value)
 			/*Right Side*/
 			if (current_node->right == NULL)
 			{
+        stats = 0;
 				current_node->right = new_node;
 				break;
 			}
@@ -51,13 +56,14 @@ bool insert_tree(node **root, int value)
 			/*Left Side*/
 			if (current_node->left == NULL)
 			{
+        stats = 0;
 				current_node->left = new_node;
 				break;
 			}
 			current_node = current_node->left;
 		}
 	}
-	return (true);
+	return (stats);
 	}
 /**
  * look_up_tree - look for a specific value

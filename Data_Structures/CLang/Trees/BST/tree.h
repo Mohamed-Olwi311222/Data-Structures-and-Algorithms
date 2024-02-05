@@ -20,7 +20,7 @@ typedef struct node
 } node;
 /*--------------------------------------------Function prototypes Section----*/
 node *create_new_node(const int value);
-bool insert_tree(node **root, int value);
+int insert_tree(node **root, int value);
 bool print_tree(const node *root);
 int look_up_tree(node *root, int value);
 int remove_node(node **root, int value);
