@@ -63,32 +63,28 @@ bool insert_tree(node **root, int value)
  * look_up_tree - look for a specific value
  * @root: tree's root to search in
  * @value: the value to look for
- * Return: true if success otherwise false
+ * Return: 0 if success otherwise -1 
  */
-bool look_up_tree(node *root, int value)
+int look_up_tree(node *root, int value)
 {
-	bool found = false;
+	int found = -1;
 
 	while (root)
 	{
-		if (root->val <= value)
+    /*Val found*/
+    if (root->val == value)
+		{
+			found = 0; 
+			break;
+		}
+		if (root->val < value)
 		{
 			/*Right side*/
-			if (root->val == value)
-			{
-				found = true;
-				break;
-			}
 			root = root->right;
 		}
 		else
 		{
 			/*Left side*/
-			if (root->val == value)
-			{
-				found = true;
-				break;
-			}
 			root = root->left;
 		}
 	}
@@ -136,10 +132,7 @@ int remove_node(node **root, int value)
 				temp = temp->left;
 			}
 			child->val = temp->val;
-			if (temp_parent->left == temp)
-				temp_parent->left = NULL;
-			else
-				temp_parent->right = NULL;
+			temp_parent->left = NULL;
 			free(temp);
 		}
 		return (0);
@@ -200,10 +193,7 @@ int remove_node(node **root, int value)
 					temp = temp->left;
 				}
 				child->val = temp->val;
-				if (temp_parent->left == temp)
-					temp_parent->left = NULL;
-				else
-					temp_parent->right = NULL;
+				temp_parent->left = NULL;
 				free(temp);
 			}
 			return (0);

@@ -22,7 +22,7 @@ typedef struct node
 node *create_new_node(const int value);
 bool insert_tree(node **root, int value);
 bool print_tree(const node *root);
-bool look_up_tree(node *root, int value);
+int look_up_tree(node *root, int value);
 int remove_node(node **root, int value);
 /*--------------------------------------------End Section--------------------*/
 #endif
