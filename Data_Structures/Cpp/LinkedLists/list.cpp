@@ -3,7 +3,7 @@
 template <typename T>
 int LinkedList<T>::get_size()
 {
-    return (this->size);
+    return (this->size_of_the_list);
 }
 
 
@@ -15,28 +15,28 @@ LinkedList<T>::~LinkedList()
         Node *tmp = head;
         head = head->next;
         delete tmp;
-        LinkedList<T>::size--;
+        LinkedList<T>::size_of_the_list--;
     }
 }
 
 template <typename T>
-int LinkedList<T>::prepend(const T& d)
+int LinkedList<T>::prepend_data(const T& data)
 {
     int status = -1;
     if (!head)
     {
-        head = new Node(d);
+        head = new Node(data);
         assert(head != nullptr);
-        size++;
+        size_of_the_list++;
         status = 0;
     }
     else
     {
-        Node *newnode = new Node(d);
+        Node *newnode = new Node(data);
         assert(newnode != nullptr);
         newnode->next = head;
         head = newnode;
-        size++;
+        size_of_the_list++;
         status = 0;
     }
     return (status);
@@ -65,7 +65,7 @@ const int LinkedList<T>::print_list()
 }
 
 template <typename T>
-int LinkedList<T>::append(const T& d)
+int LinkedList<T>::append_data(const T& data)
 {
     int status = -1;
     Node *curr = head;
@@ -76,16 +76,16 @@ int LinkedList<T>::append(const T& d)
         {
             curr = curr->next;
         }
-        curr->next = new Node(d);
+        curr->next = new Node(data);
         assert(curr->next != nullptr);
-        size++;
+        size_of_the_list++;
         status = 0;
     }
     else
     {
-        head = new Node(d);
+        head = new Node(data);
         assert(head != nullptr);
-        size++;
+        size_of_the_list++;
         status = 0;
     }
     return (status);
@@ -110,6 +110,38 @@ int LinkedList<T>:: reverse_list()
         }
         head = prev;
         status = 0;
+    }
+    return (status);
+}
+
+template <typename T>
+int LinkedList<T>::insert_at_index(const int index, const T &data)
+{
+    int status = -1;
+
+    if (index >= size_of_the_list || index < 0)
+    {
+        return (status);
+    }
+    if (index == 0)
+        this->prepend_data(data);
+    else if (index == size_of_the_list - 1)
+        this->append_data(data);
+    else
+    {
+        Node *curr = head;
+        int idx = 0;
+        while (idx < index - 1 && curr)
+        {
+            curr = curr->next;
+            idx++;
+        }
+        Node *newnode = new Node(data);
+        newnode->next = curr->next;
+        curr->next = newnode;
+        status = 0;
+        size_of_the_list++;
+
     }
     return (status);
 }
