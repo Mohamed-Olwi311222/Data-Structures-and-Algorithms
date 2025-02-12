@@ -1,10 +1,20 @@
 #include "stack.h"
 
-/*
-   #define MAX_LENGTH 10
-   #define EMPTY (-1)
-*/
 char *stack[MAX_LENGTH] = {"NULL"};
+static char *my_strndup(char *data, size_t len)
+{
+  char *temp = NULL;
+  if (NULL != data)
+  {
+    temp = (char *)malloc((sizeof(char) * len) + 1);
+    if (NULL != temp)
+    {
+      memcpy(temp, data, len);
+      temp[len] = '\0';
+    }
+  }
+  return (temp);
+}
 int top = EMPTY;
 /**
  * push - push element to the stack
@@ -17,7 +27,7 @@ bool push(char *data)
     return (false);
   }
   top++;
-  stack[top] = strndup(data, strlen(data));
+  stack[top] = my_strndup(data, strlen(data));
   return (true);
 }
 
@@ -29,7 +39,7 @@ char *pop(void)
 {
   if (top == EMPTY)
     return "NULL";
-  char *result = strndup(stack[top], strlen(stack[top]));
+  char *result = my_strndup(stack[top], strlen(stack[top]));
   stack[top] = "NULL";
   top--;
   return (result);
@@ -43,7 +53,7 @@ char *peek(void)
 {
   if (top == EMPTY)
     return ("NULL");
-  char *result = strndup(stack[top], strlen(stack[top]));
+  char *result = my_strndup(stack[top], strlen(stack[top]));
   return (result);
 }
 
