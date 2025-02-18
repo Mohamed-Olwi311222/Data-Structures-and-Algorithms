@@ -35,7 +35,12 @@ typedef struct
 } stack_t;
 /*-------------------------Function prototypes----------------------------------*/
 /**
- * @brief:
+ * @brief: Check if stack is empty
+ * @return: E_OK if stack is empty, E_NOT_OK if not empty
+ */
+Std_Return_t stack_is_empty(void);
+/**
+ * @brief: Push the data to the stack to be the new top
  * @param stack: the stack to modify
  * @param data: pointer to the data
  * @param data_size: size of the data

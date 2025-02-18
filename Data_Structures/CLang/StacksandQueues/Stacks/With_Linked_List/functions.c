@@ -28,7 +28,6 @@ static Std_Return_t create_new_node(node_t **node, const void *const data, const
             {
                 memcpy((*node)->data, data, data_size);
                 (*node)->next = NULL;
-                length++;
             }
             else
             {
@@ -69,12 +68,25 @@ static Std_Return_t create_new_node(node_t **node, const void *const data, const
       /* free the allocated memory of the node */
       free(node->data);
       free(node);
-      length--;
   }
   return (ret_status);
 }
 /**
- * @brief:
+ * @brief: Check if stack is empty
+ * @return: E_OK if stack is empty, E_NOT_OK if not empty
+ */
+Std_Return_t stack_is_empty(void)
+{
+    Std_Return_t ret_status = E_OK;
+
+    if (0 != length)
+    {
+        ret_status = E_NOT_OK;
+    }
+    return (E_OK);
+}
+/**
+ * @brief: Push the data to the stack to be the new top
  * @param stack: the stack to modify
  * @param data: pointer to the data
  * @param data_size: size of the data
@@ -98,6 +110,7 @@ Std_Return_t push(stack_t *stack, const void *const data, const size_t data_size
             /* Make the newnode the new top */
             newnode->next = stack->top;
             stack->top = newnode;
+            length++;
         }
     }
     return (ret_status);
@@ -124,6 +137,10 @@ Std_Return_t pop(stack_t *stack, void *const data, const size_t data_size)
       temp = stack->top;
       stack->top = stack->top->next;
       ret_status = delete_node(temp, data, data_size);
+      if (E_OK == ret_status)
+      {
+        length--;
+      }
   }
   return (ret_status);
 }
@@ -208,4 +225,22 @@ void print_char(void *data)
 void print_float(void *data)
 {
     printf("%.2f", *((float *)data));
+}
+Std_Return_t infix_to_postfix(char *infix, size_t infix_arr_size)
+{
+    Std_Return_t ret_status = E_NOT_OK;
+    uint8_t i = 0;
+
+    if (NULL == infix || 0 == infix_arr_size)
+    {
+        ret_status = E_NOT_OK;
+    }
+    else
+    {
+        for (; i < infix_arr_size; i++)
+        {
+
+        }
+    }
+    return (ret_status);
 }
