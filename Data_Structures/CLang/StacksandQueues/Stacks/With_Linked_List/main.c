@@ -2,38 +2,23 @@
 
 int main(void)
 {
-  stack stack;
+  stack_t stack;
   stack.top = NULL;
+  char *val = malloc(sizeof(char) * 8);
 
-  printf("\n\n\nprintStack before push\n");
-  printStack(&stack);
-  printf("\nlength: %lu\n", length);
+  push(&stack, "Google", 7 * sizeof(char));
+  push(&stack, "Discord", 8 * sizeof(char));
+  
+  printf("%s\n", (char *)stack.top->data);           // Output: Discord
+  printf("%s\n", (char *)stack.top->next->data);     // Output: Google
+  pop(&stack, val, 8);
+  printf("%s\n", (char *)stack.top->data);           // Output: Google
+  printf("%s\n", val);                               // Output: Discord
 
-  push(&stack, "Google");
-  push(&stack, "Udemy");
-  push(&stack, "Discord");
-  printf("\n\n\nprintStack function after push\n");
-  printStack(&stack);
-  printf("\nlength: %lu\n", length);
-
-
-
-
-
-  printf("\n\n\npeek test:\n");
-  printf("%s ", peek(&stack));
-
-  printf("\n\n\nFor loop to test pop: \n");
-  char *data = pop(&stack);
-  while (data != NULL)
-  {
-    printf("%s ", data);
-    data = pop(&stack);
-  }
-
-  printf("\n\n\nprintStack after popping\n");
-  printStack(&stack);
-  printf("\nLength: %lu\n", length);
-  printf("\n");
+  push(&stack, "AceMido", 8 * sizeof(char));
+  peek(&stack, val, sizeof(char) * 8);
+  printStack(&stack, print_str);
+  printf("%s\n", (char *)stack.top->data);           // Output: AceMido
+  printf("%s\n", val);                               // Output: AceMido
 
 }

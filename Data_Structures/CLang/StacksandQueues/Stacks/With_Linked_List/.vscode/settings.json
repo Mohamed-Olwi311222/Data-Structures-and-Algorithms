@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "mcal_usart.h": "c",
+        "stack.h": "c"
+    }
+}
