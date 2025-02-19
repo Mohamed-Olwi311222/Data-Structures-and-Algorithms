@@ -1,5 +1,4 @@
 #include "queues.h"
-//i love sama so muchhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 size_t length = 0;
 /**
 * create_new_node - create a new newnode

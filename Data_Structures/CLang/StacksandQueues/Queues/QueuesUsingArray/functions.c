@@ -1,5 +1,4 @@
 #include "queues.h"
-//i love sama so muchhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 
 /**
  * @brief a helper function to check if the queue is full
